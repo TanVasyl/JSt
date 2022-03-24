@@ -5,7 +5,7 @@ let number = []
 let buttonClear = document.querySelector(".clear-button");
 let buttonAdd = document.querySelector(".b1")
 document.addEventListener ('keyup', function(event) {
-    if (event.code === 'Enter' || event.code === 'NumpadEnter' || event.code === 'mouseup' )  {
+    if (event.code === 'Enter' || event.code === 'NumpadEnter')  {
             let val = document.querySelector(".in1").value;
                  number.push(+val);
                 
