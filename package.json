@@ -1,0 +1,23 @@
+{
+  "name": "paket",
+  "version": "1.0.0",
+  "description": "any",
+  "main": "script.js",
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compil":"tsc script.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TanVasyl/JSt.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TanVasyl/JSt/issues"
+  },
+  "homepage": "https://github.com/TanVasyl/JSt#readme"
+}
