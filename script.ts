@@ -1,3 +1,4 @@
+import '../JSt/style.css'
 'use strict';
 
 let number: Array<number> = []
