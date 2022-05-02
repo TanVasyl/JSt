@@ -1,84 +1,50 @@
-const path = require('path')
-const HTMLWebPlug = require('html-webpack-plugin')
+const HTMLWebPlug = require('html-webpack-plugin');
 const {CleanWebPlug, CleanWebpackPlugin} = require('clean-webpack-plugin')
-const CopyWebPlug = require('copy-webpack-plugin')
-const MCEP = require('mini-css-extract-plugin')
-const TerserWebPlug = require('terser-webpack-plugin')
+const path = require('path');
+const webpack = require('webpack');
+// const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const isDev = process.env.Node_ENV === 'development'
-const isProd = !isDev
+// const paths = {
+//     src: path.resolve(__dirname, 'src'),
+//     dist: path.resolve(__dirname, 'dist')
+// };
 
-const optimization = () => {
-    const config = {
-        splitChunks: {
-            chunks: 'all'
-        }
-   }
-   if (isProd) {
-       config.minimizer = [
-           new TerserWebPlug()
-       ]
-   }
-   return config
-}
-module.exports = {
-    context: path.resolve(__dirname,'JST'),
+const config = {
+   
     entry: {
-       main : '../script.ts',
-    },   
+        app: './src/script.tsx',
+    },
+    
     output: {
-        filename: '[name].[hash].js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].bundle.js'
     },
-    resolve:{
-        extensions: [''],
-        alias:{},
+    
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
-    optimization: optimization(),
-    plugins: [
-        new HTMLWebPlug({
-            title: 'DocumentWP',
-            template: '../index.html',
-            minify: {
-                collapseWhitespace: isProd
-            }
-        }),
-        new CleanWebpackPlugin(),
-        new MCEP({
-            filename: '[name].[hash].css'
-        })
-    ],
-    module:{
-        rules:[
+
+    devtool: 'inline-source-map',
+    
+    module: {
+        rules: [
             {
-                test: /\.css$/,
-                use: [
-                    {
-                    loader: MCEP.loader,
-                    },'css-loader']
+                test: /\.tsx?$/,
+                loader: 'ts-loader'
             },
             {
-            test: /\.js$/,
-            exclude: /node_modules/,
-            use: {
-                 loader: "babel-loader",
-                 options: {
-                    presets: ['@babel/preset-env']
-                    },
-              }
+              test: /\.css$/i,
+              use: ["style-loader", "css-loader"],
             },
-            {
-                test: /\.ts$/,
-                exclude: /node_modules/,
-                use: {
-                     loader: "babel-loader",
-                     options: {
-                        presets: [
-                        '@babel/preset-env',
-                        "@babel/preset-typescript"]
-                        }
-                    }
-                },
         ]
-    }
-}
+    },
+    
+    plugins: [
+        new CleanWebpackPlugin(),
+        new HTMLWebPlug({
+            template: './src/index.html'
+        })
+    ]
+};
+
+module.exports = config;
