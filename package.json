@@ -20,7 +20,6 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "compil": "tsc ./src/script.ts",
     "wp": "webpack --mode production",
     "serv": "webpack-dev-server --mode=development --open"
   },
