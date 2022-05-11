@@ -24,6 +24,9 @@ const config = {
         extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
 
+    devServer: {
+        port: 3000
+    },
     devtool: 'inline-source-map',
     
     module: {
