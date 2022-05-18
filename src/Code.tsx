@@ -9,9 +9,6 @@ interface CodeInputState {
   
 }
 
-let array:any = [];
-
-
 class Code extends React.Component<{}, CodeInputState>{
   constructor(props:string) {
     super(props);
@@ -24,37 +21,30 @@ class Code extends React.Component<{}, CodeInputState>{
     let a = event.target.value;
     this.setState({
       title: a,
-      number: array
+      number: []
     });
   }
   showArray = () => {
     this.setState({
-      number: array.push(+this.state.title)
-    })
-     
-    
+      number:[...this.state.number, +this.state.title]
+    })   
     console.log(this.state.number)
-    console.log(array)
+    
   }
    
   render() {
-  
-    let sum:number = array.reduce((sum:number, current:number) => sum + current, 0)
-    let mul:number = array.reduce((mul:number, current:number) => mul * current, 1)
     return (
       <div className="App">
         <header className="App-header">
           <button onClick={this.showArray}>Calculation?</button>
         <input type ="number" className = "input-add" placeholder="Write number" onInput={this.showText}/>
         </header>
-          <h3>{`Результат сложения ваших чисел равен: ${sum}`}</h3>
-          <h3>{`Результат умножения ваших чисел равен: ${mul}`}</h3>
+          <h3>{`Результат сложения ваших чисел равен: ${this.state.number.reduce((sum:number, current:number) => sum + current, 0)}`}</h3>
+          <h3>{`Результат умножения ваших чисел равен: ${this.state.number.reduce((mul:number, current:number) => mul * current, 1)}`}</h3>
       </div>
       );
-
   }  
 }
-
 
 export default Code;
 
