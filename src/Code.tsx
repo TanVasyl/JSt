@@ -4,7 +4,7 @@ import { Argument } from 'webpack';
 
 
 interface CodeInputState {
-  title ?: string;
+  title ?: any;
   number?: Array<number>;
   
 }
@@ -13,18 +13,16 @@ class Code extends React.Component<{}, CodeInputState>{
   constructor(props:string) {
     super(props);
     this.state = {
-      title: ``,
+      title: '',
       number: []
       }
   }
-  showText = (event:any) => {
-    let a = event.target.value;
-    this.setState({
-      title: a,
-      number: []
-    });
+  input = (event:any) => {
+    this.setState ({
+      title: event.target.value
+    })
   }
-  showArray = () => {
+  showArray = (input:any) => {
     this.setState({
       number:[...this.state.number, +this.state.title]
     })   
@@ -37,7 +35,7 @@ class Code extends React.Component<{}, CodeInputState>{
       <div className="App">
         <header className="App-header">
           <button onClick={this.showArray}>Calculation?</button>
-        <input type ="number" className = "input-add" placeholder="Write number" onInput={this.showText}/>
+        <input type ="number" className = "input-add" placeholder="Write number" onInput={this.input}/>
         </header>
           <h3>{`Результат сложения ваших чисел равен: ${this.state.number.reduce((sum:number, current:number) => sum + current, 0)}`}</h3>
           <h3>{`Результат умножения ваших чисел равен: ${this.state.number.reduce((mul:number, current:number) => mul * current, 1)}`}</h3>
