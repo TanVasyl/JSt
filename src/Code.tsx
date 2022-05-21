@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Argument, electron } from 'webpack';
+import { Argument} from 'webpack';
 
 
 
