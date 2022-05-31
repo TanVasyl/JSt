@@ -3,22 +3,24 @@ import { Argument} from 'webpack';
 
 
 
+
 interface CodeInputState {
   title ?: any;
   number?: Array<number>;
-  sum?:Array<number>  ;
+  sum?: Array<number>;
   mul?:Array<number>;
 }
 
 class Code extends React.Component<{}, CodeInputState>{
   constructor(props:string) {
     super(props);
+   
     this.state = {
       title: '',
       number: [],
-      sum: [],
-      mul: []
-      }
+      sum: []
+    }
+   
   }
   input = (event:any) => {
     this.setState ({
@@ -26,60 +28,46 @@ class Code extends React.Component<{}, CodeInputState>{
     })
   }
   showArray = () => {
-    this.setState({
-      number: this.state.number.concat(+this.state.title), 
-      sum: this.state.number.concat(this.state.number.reduce((prev,curr)=> prev+curr, +this.state.title)),
-      mul: this.state.number.concat(this.state.number.reduce((prev,curr)=> prev*curr, +this.state.title)),
-      })   
-   
-    console.log(this.state.sum)
+    let a:Array<number> = this.state.number
+    a.push(+this.state.title);
+     this.setState({
+      number: a,
+    })   
   }
   deleteResult = () => {
     this.setState({
       number: [],
-      sum: [],
-      mul: []
     })
   }
   deleteStr = () => {
-    this.setState({
-      number:this.state.number.slice(1),
-      // sum:  [...this.state.sum, this.state.number.slice(1).reduce((prev,curr) => prev+curr, +this.state.title)]
+    let a:Array<number> = this.state.number  
+    a.splice(0,1) 
+      this.setState({
+      number:a ,
     })
-    // console.log(this.state.number)
-    console.log(this.state.sum)
   }
+  render() {    
     
-  
-
-  
-  render() {
-    return (
+      return (
       <div className="App">
         <header className="App-header">
           <button onClick={this.showArray}>Считаем?</button>
-        <input type ="number" className = "input-add" placeholder="Write number" onInput={this.input}/>
+        <input  type ="number" className = "input-add" placeholder="Write number" onInput={this.input}/>
         <button onClick={this.deleteResult}>Обнуляем?</button>
        
         </header>
         <ul style={{display:'inline-block'}}>Введеные числа
-          {this.state.number.map(elem => {
+          {this.state.number.map((elem,ind) => {
             return <li>{elem}</li>
           })}
         </ul>
-        <ul style={{display:'inline-block'}}>Сумма чисел
-        {this.state.sum.map((elem,ind,arr) => {
-            return <li>{this.state.number.reduce((prev,curr) => prev+curr,0)}</li>
-          })}
+        <ul style={{display:'inline-block'}}>Сумма чисел{
+           this.state.sum.concat(this.state.number.reduce((prev,curr) =>
+            prev+curr,0)).map(elem => <li>{elem}</li>)}
         </ul>       
-        <ul style={{display:'inline-block'}}>Произведение чисел
-        {this.state.mul.map((elem,ind,arr) => {
-            return <li>{this.state.number.reduce((prev,curr) =>  prev*curr,1)}</li>
-          })}
-        </ul>
         <ul style={{display:'inline-block'}}> Тыкай тут, что бы удалить строку
-         {this.state.number.map( () => {
-           return <li><button onClick={this.deleteStr}>Удали Меня</button></li>
+         {this.state.number.map((elem,ind,arr) => {
+           return <li key={ind}><button  onClick={this.deleteStr}>Удали Меня</button></li>
          })}
         </ul>    
       </div>
