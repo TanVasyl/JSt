@@ -130,7 +130,7 @@ class Code extends React.Component<{}, CodeInputState>{
           </tr>
          )}
         </td> 
-        <td> <th>Редактировать строку</th>{
+        <td> <th style={{border: '1px solid black'}}>Редактировать строку</th>{
           this.state.number.map((elem,ind) => 
           <tr style={tableStyle}><button onClick={() => this.editArray(ind)}><img style={{
             width: '22px',
@@ -138,7 +138,7 @@ class Code extends React.Component<{}, CodeInputState>{
           }}src={edit}/></button>
           <input style={{maxWidth: '100px'}} onInput={this.editInput} /></tr>)
         }</td>
-        <td> <th>Вставить строку</th>{
+        <td> <th style={{border: '1px solid black'}}>Вставить строку</th>{
           this.state.number.map((elem,ind) => 
           <tr style={tableStyle}><button onClick={() => this.pasteArray(ind)}><img style={{
             width: '22px',
