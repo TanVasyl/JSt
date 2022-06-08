@@ -3,12 +3,6 @@ const {CleanWebPlug, CleanWebpackPlugin} = require('clean-webpack-plugin')
 const path = require('path');
 const webpack = require('webpack');
 // const CleanWebpackPlugin = require('clean-webpack-plugin');
-
-// const paths = {
-//     src: path.resolve(__dirname, 'src'),
-//     dist: path.resolve(__dirname, 'dist')
-// };
-
 const config = {
    
     entry: {
@@ -39,6 +33,13 @@ const config = {
               test: /\.css$/i,
               use: ["style-loader", "css-loader"],
             },
+            {
+                test: /\.(png|jpe?g|gif|jp2|webp)$/,
+                loader: 'file-loader',
+                options: {
+                  name: '[name].[ext]',
+                },
+              },
         ]
     },
     

@@ -8,12 +8,26 @@
       "allowJs": true,
       "moduleResolution": "node",
       "sourceMap": true,
-      "skipLibCheck": true
+      "skipLibCheck": true,
+      
     },
     "angularCompilerOptions": {
       "fullTemplateTypeCheck": true,
       "strictInjectionParameters": true,
       "allowSyntheticDefaultImports": true
     },
-    "exclude": [".typescript/node_modules/"]   
-   }
+    "include": [
+      "src",
+      "declaration.d.ts",
+      "src/img"
+    ],
+    "exclude": [".typescript/node_modules/"]   ,
+    
+   }  
+   
+    
+     
+     
+    
+  
+  
