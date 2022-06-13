@@ -16,7 +16,6 @@ interface CodeInputState {
 class Code extends React.Component<{}, CodeInputState>{
   constructor(props:string) {
     super(props);
-   
     this.state = {
       title: '',
       number: [],
@@ -24,22 +23,28 @@ class Code extends React.Component<{}, CodeInputState>{
       mul:[],
       edit: null
     }
-    
   }
   input = (event:any) => {
     this.setState ({
-      title: event.target.value
+      title: +event.target.value
     })
   }
-  showArray = () => {
-    let a:Array<number> = this.state.number
-    a.push(+this.state.title);
-    let x =0
+  editInput = (event:any) => {
     this.setState({
-      number: a,
-      sum: this.state.number.map(elem => x+=elem, x=0),
-      mul: this.state.number.map(elem => x*=elem, x=1),
-    })   
+      edit: +event.target.value
+    })
+  }
+  pasteArray = (ind:number) => {
+    let c = [...this.state.number.slice(0,ind),this.state.edit,...this.state.number.slice(ind)];
+    this.setState({
+      number: c,
+    })
+  }
+  editArray = (ind:number) => {
+    let a = [...this.state.number.slice(0,ind),this.state.edit,...this.state.number.slice(ind+1)]
+    this.setState({
+      number:a ,
+    })
   }
   deleteResult = () => {
     this.setState({
@@ -49,39 +54,22 @@ class Code extends React.Component<{}, CodeInputState>{
     })
   }
   deleteStr = (ind:any) => {
-    let a = [...this.state.number.slice(0,ind),...this.state.number.slice(ind+1)]
-    let x =0
     this.setState({
-      number:a,
-      sum: a.map(elem => x+=elem, x),
-      mul: a.map(elem => x*=elem, x=1)
+      number:[...this.state.number.slice(0,ind),...this.state.number.slice(ind+1)],
     })
   }
-  editInput = (event:any) => {
+  showArray = () => {
+    let a = this.state.number
+    a.push(this.state.title)
     this.setState({
-      edit: +event.target.value
-    })
+      number: a,
+    })   
   }
-  editArray = (ind:number) => {
-    let b = [...this.state.number.slice(0,ind),this.state.edit,...this.state.number.slice(ind+1)];
-    let x =0;
-    this.setState({
-      number: b,
-      sum: b.map(elem => x+=elem, x),
-      mul: b.map(elem => x*=elem, x=1)
-    })
-  }
-  pasteArray = (ind:number) => {
-    let c = [...this.state.number.slice(0,ind),this.state.edit,...this.state.number.slice(ind)];
-    let x =0;
-    this.setState({
-      number: c,
-      sum: c.map(elem => x+=elem, x),
-      mul: c.map(elem => x*=elem, x=1)
-    })
-  }
-  
   render() {    
+    let x = 0
+    const sum = this.state.number.map(elem => x+=elem, x)
+    const mul = this.state.number.map(elem => x*=elem, x=1)
+    
     const tableStyle = {
       border: '1px solid black',
       height: '34px',
@@ -112,12 +100,12 @@ class Code extends React.Component<{}, CodeInputState>{
           )}
         </td>
         <td> <th style={{border: '1px solid black'}}>Сумма чисел</th>{
-          this.state.sum.map((elem,ind) => 
+          sum.map((elem,ind) => 
           <tr style={tableStyle} key={ind.toString()}>{elem}</tr>
           )}
         </td>    
         <td> <th style={{border: '1px solid black'}}>Произведение чисел</th>{
-          this.state.mul.map(elem => <tr style={tableStyle}>{elem} </tr>
+          mul.map(elem => <tr style={tableStyle}>{elem} </tr>
           )}
         </td>       
         <td> <th style={{border: '1px solid black'}}>Тыкай тут, что бы удалить строку</th>
