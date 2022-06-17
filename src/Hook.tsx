@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Argument} from 'webpack';
-import { useState } from 'react';
+import { useState, useCallback,useMemo } from 'react';
 import trashImg from './img/trash.png'
 import addImg from './img/add.png'
 import editImg from './img/edit.png'
@@ -10,7 +10,22 @@ export default function Add () {
   const [arr, setArr] = useState([]);
   const [input,setInput] = useState('')
   const [edit,setEdit] = useState('')
-  
+  const [color, setColor] = useState(false)
+
+  function calcSum(a:Array<number>) {
+    console.log(a)
+    let x = 0
+    return a.map(elem => x+=elem)
+  }
+  function calcMul(a:Array<number>) {
+    console.log(a)
+    let x = 1
+    return a.map(elem => x*=elem)
+  }
+  const sum:Array<number> = useMemo(() => calcSum(arr), [arr])
+  const mul:Array<number> = useMemo(() => calcMul(arr), [arr])
+
+
   let editArr = (ind:number) => 
     setArr([...arr.slice(0,ind),+edit,...arr.slice(ind+1)]);
 
@@ -20,10 +35,6 @@ export default function Add () {
   let delArr = (ind:number) => 
     setArr([...arr.slice(0,ind),...arr.slice(ind+1)]);
  
-  let x =0
-  const sum = arr.map(elem => x+=elem, x)
-  const mul = arr.map(elem => x*=elem, x=1)
-  
   const style = {
     border: '1px solid black',
     height: '34px',
@@ -36,7 +47,7 @@ export default function Add () {
     
     <div>
     <header>
-      <button onClick={() => setArr(arr.concat(+input)) }>Считать!</button>
+      <button  onClick={()=> setArr(arr.concat(+input)) }>Считать!</button>
       <input value={input} onChange={(event) => setInput(event.target.value)}/>
     </header>
     <table style={{
@@ -47,7 +58,7 @@ export default function Add () {
     }}>
         <td>
           <th style={{border:'2px solid black'}}>Числа</th>
-            {arr.map((elem,ind) => <tr style={style} key={(elem+ind.toString())}>{elem}</tr>)}
+          {arr.map((elem,ind) => <tr style={style} key={(elem+ind.toString())}>{elem}</tr>)}
         </td>
         <td>  
           <th style={{border:'2px solid black'}}>Сумма</th>
@@ -81,6 +92,8 @@ export default function Add () {
         </td>
      </table>
 
+  
+    <p style={{color: color ?'green' : 'yellow'}} onClick={() => setColor(!color)}>Color Green or Yellow!</p>
     </div>
   )
 }
