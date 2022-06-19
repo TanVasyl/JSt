@@ -10,24 +10,22 @@ export default function Add () {
   const [arr, setArr] = useState([]);
   const [input,setInput] = useState('')
   const [edit,setEdit] = useState('')
-  const [color, setColor] = useState(false)
-
+  
+  let x = 0;
   function calcSum(a:Array<number>) {
-    console.log(a)
-    let x = 0
     return a.map(elem => x+=elem)
   }
   function calcMul(a:Array<number>) {
-    console.log(a)
-    let x = 1
-    return a.map(elem => x*=elem)
+    return a.map(elem => x*=elem,x = 1)
+   
+    
   }
   const sum:Array<number> = useMemo(() => calcSum(arr), [arr])
   const mul:Array<number> = useMemo(() => calcMul(arr), [arr])
 
 
-  let editArr = (ind:number) => 
-    setArr([...arr.slice(0,ind),+edit,...arr.slice(ind+1)]);
+  let editArr = useCallback((ind:number) => 
+    setArr([...arr.slice(0,ind),+edit,...arr.slice(ind+1)]),[edit]);
 
   let pasteArr = (ind:number) => 
     setArr([...arr.slice(0,ind),+edit,...arr.slice(ind)]);
@@ -40,15 +38,16 @@ export default function Add () {
     height: '34px',
     listStyleType:'none',
     with: '50px',
-  
   }
  
   return (
     
     <div>
     <header>
-      <button  onClick={()=> setArr(arr.concat(+input)) }>Считать!</button>
-      <input value={input} onChange={(event) => setInput(event.target.value)}/>
+      <button  onClick={() => {setArr(arr.concat(+input))
+      
+      }}>Считать!</button>
+      <input onChange={(event) => setInput(event.target.value)}/>
     </header>
     <table style={{
        backgroundColor:'#C9CBD1',
@@ -72,7 +71,8 @@ export default function Add () {
           <th style={{border:'2px solid black'}}>Изменить</th>
           {arr.map((elem,ind) => <tr style={style} key={(elem+ind.toString())}>
             <input onChange={(event) => setEdit(event.target.value)}/>
-            <button onClick={() => editArr(ind)}><img style={{
+            <button onClick={()=> {editArr(ind);
+            }}><img style={{
               width:'22px',
               height: '22px'}} src={editImg}/></button></tr>)}
         </td>
@@ -91,9 +91,6 @@ export default function Add () {
               height: '22px'}} src={trashImg}/></button></tr>)}
         </td>
      </table>
-
-  
-    <p style={{color: color ?'green' : 'yellow'}} onClick={() => setColor(!color)}>Color Green or Yellow!</p>
     </div>
   )
 }
